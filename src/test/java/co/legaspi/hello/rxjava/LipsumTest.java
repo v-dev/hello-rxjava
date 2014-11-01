@@ -1,3 +1,6 @@
+package co.legaspi.hello.rxjava;
+
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014 legaspi.co
@@ -19,3 +22,26 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class LipsumTest {
+
+    private static final int EXPECTED_SIZE = 12;
+    private Lipsum lipsum;
+
+    @Before
+    public void setup() {
+        lipsum = new Lipsum();
+    }
+
+    @Test
+    public void hasExpectedSize() {
+        assertThat(lipsum.size()).isEqualTo(EXPECTED_SIZE);
+    }
+
+}
