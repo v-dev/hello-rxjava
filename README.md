@@ -1,4 +1,4 @@
 # About #
-Simple "hello world" type demonstration of the RxJava library. It's a rudimentary lipsum generator.
+A rudimentary lipsum generator as a simple "hello world" type demonstration of the RxJava library.
 
 # Usage #
