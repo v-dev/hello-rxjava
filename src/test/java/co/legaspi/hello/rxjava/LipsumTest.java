@@ -31,7 +31,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class LipsumTest {
 
-    private static final int EXPECTED_SIZE = 12;
     private Lipsum lipsum;
 
     @Before
@@ -41,7 +40,39 @@ public class LipsumTest {
 
     @Test
     public void hasExpectedSize() {
-        assertThat(lipsum.size()).isEqualTo(EXPECTED_SIZE);
+        final int expectedSize = 12;
+        assertThat(lipsum.size()).isEqualTo(expectedSize);
+    }
+
+    @Test
+    public void getIsEmptyWhenNegativeIndex() {
+        assertThat(lipsum.get(-1)).isEmpty();
+    }
+
+    @Test
+    public void getIsEmptyWhenGreaterThanSize() {
+        int tooLarge = lipsum.size() + 1;
+        assertThat(lipsum.get(tooLarge)).isEmpty();
+    }
+
+    @Test
+    public void firstElementIsLoremIpsum() {
+        final String firstElement = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+        assertThat(lipsum.get(0)).isEqualTo(firstElement);
+    }
+
+    @Test
+    public void fifthElementIsNamEget() {
+        final String fifthElement = "Nam eget elementum purus.";
+        assertThat(lipsum.get(4)).isEqualTo(fifthElement);
+    }
+
+    @Test
+    public void lastElementIsPellentesque() {
+        int lastIndex = lipsum.size() - 1;
+        final String lastElement = "Pellentesque libero sapien, eleifend a eleifend eu, bibendum congue tortor.";
+
+        assertThat(lipsum.get(lastIndex)).isEqualTo(lastElement);
     }
 
 }

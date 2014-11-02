@@ -32,6 +32,33 @@ public class Lipsum {
     private List<String> lipsum;
 
     public Lipsum() {
+        setupLipsumList();
+    }
+
+    /**
+     * How many lipsum entries are there?
+     *
+     * @return The size of the Lipsum list.
+     */
+    public int size() {
+        return lipsum.size();
+    }
+
+    /**
+     * Get a lipsum phrase at the given index.
+     *
+     * @param index The index, starting with 0, to lookup a lipsum phrase.
+     * @return  The Lipsum phrase at the given index.  Otherwise, return an empty String.
+     */
+    public String get(int index) {
+        if (index >= 0 && index <= lipsum.size()) {
+            return lipsum.get(index);
+        } else {
+            return "";
+        }
+    }
+
+    private void setupLipsumList() {
         lipsum = new ArrayList<String>();
 
         lipsum.add("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
@@ -46,15 +73,6 @@ public class Lipsum {
         lipsum.add("Proin eget fermentum erat.");
         lipsum.add("Nullam hendrerit sem id lectus aliquam, sit amet elementum lacus scelerisque.");
         lipsum.add("Pellentesque libero sapien, eleifend a eleifend eu, bibendum congue tortor.");
-    }
-
-    /**
-     * How many lipsum entries are there?
-     *
-     * @return The size of the Lipsum list.
-     */
-    public int size() {
-        return lipsum.size();
     }
 
 }
