@@ -69,7 +69,7 @@ public class Lipsum {
     }
 
     private void setupLipsumList() {
-        lipsum = new ArrayList<>();
+        lipsum = new ArrayList<String>();
 
         lipsum.add("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
         lipsum.add("Quisque varius sem ac ex fringilla, non dignissim felis porta.");
