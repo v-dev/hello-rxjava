@@ -60,15 +60,19 @@ public class Lipsum {
     }
 
     public String next() {
+        String next = "";
         if (currentIndex < size()) {
-            return get(currentIndex++);
+            next = get(currentIndex++);
         } else {
-            return get(currentIndex = 0);
+            next = get(0);
+            currentIndex = 1;
         }
+
+        return next;
     }
 
     private void setupLipsumList() {
-        lipsum = new ArrayList<String>();
+        lipsum = new ArrayList<>();
 
         lipsum.add("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
         lipsum.add("Quisque varius sem ac ex fringilla, non dignissim felis porta.");

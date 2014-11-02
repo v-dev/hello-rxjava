@@ -26,10 +26,14 @@ SOFTWARE.
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LipsumTest {
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+
     private Lipsum lipsum;
 
     @Before
@@ -54,14 +58,32 @@ public class LipsumTest {
     @Test
     public void nextEventuallyRollsOverToFirst() {
         String first = lipsum.next();
+        LOG.info("first: {}", first);
 
-        for (int i = 0; i < lipsum.size(); i++) {
-            lipsum.next();
+        for (int i = 1; i < lipsum.size(); i++) {
+            String next = lipsum.next();
+            LOG.info("next: {}", next);
         }
 
         String rolledOver = lipsum.next();
+        LOG.info("rolledOver: {}", rolledOver);
 
         assertThat(first).isEqualTo(rolledOver);
+    }
+
+    @Test
+    public void secondAfterRollOverIsSecond() {
+        String secondLipsum = "Quisque varius sem ac ex fringilla, non dignissim felis porta.";
+        for (int i = 0; i < lipsum.size() + 1; i++) {
+            String next = lipsum.next();
+            LOG.info("next: {}", next);
+        }
+
+        String actualSecond = lipsum.next();
+
+        LOG.info("actualSecond: {}", actualSecond);
+
+        assertThat(actualSecond).isEqualTo(secondLipsum);
     }
 
     @Test
