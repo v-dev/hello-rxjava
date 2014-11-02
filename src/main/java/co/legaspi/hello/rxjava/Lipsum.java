@@ -60,15 +60,12 @@ public class Lipsum {
     }
 
     public String next() {
-        String next = "";
         if (currentIndex < size()) {
-            next = get(currentIndex++);
+            return get(currentIndex++);
         } else {
-            next = get(0);
-            currentIndex = 1;
+            currentIndex = 0;
+            return get(currentIndex++);
         }
-
-        return next;
     }
 
     private void setupLipsumList() {

@@ -58,15 +58,15 @@ public class LipsumTest {
     @Test
     public void nextEventuallyRollsOverToFirst() {
         String first = lipsum.next();
-        LOG.info("first: {}", first);
+        LOG.debug("first: {}", first);
 
         for (int i = 1; i < lipsum.size(); i++) {
             String next = lipsum.next();
-            LOG.info("next: {}", next);
+            LOG.debug("next: {}", next);
         }
 
         String rolledOver = lipsum.next();
-        LOG.info("rolledOver: {}", rolledOver);
+        LOG.debug("rolledOver: {}", rolledOver);
 
         assertThat(first).isEqualTo(rolledOver);
     }
@@ -76,12 +76,12 @@ public class LipsumTest {
         String secondLipsum = "Quisque varius sem ac ex fringilla, non dignissim felis porta.";
         for (int i = 0; i < lipsum.size() + 1; i++) {
             String next = lipsum.next();
-            LOG.info("next: {}", next);
+            LOG.debug("next: {}", next);
         }
 
         String actualSecond = lipsum.next();
 
-        LOG.info("actualSecond: {}", actualSecond);
+        LOG.debug("actualSecond: {}", actualSecond);
 
         assertThat(actualSecond).isEqualTo(secondLipsum);
     }
