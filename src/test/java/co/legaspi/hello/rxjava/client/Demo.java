@@ -28,12 +28,35 @@ import co.legaspi.hello.rxjava.LipsumServer;
 import org.junit.Test;
 import rx.Observable;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 public class Demo {
 
-    @Test
-    public void demo() {
-        Observable<String> lipsums = LipsumServer.getLipsum(1);
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
-        lipsums.subscribe(new LipsumSubscriber());
+    @Test
+    public void demo() throws InterruptedException {
+        final Observable<String> lipsums = LipsumServer.getLipsum(1);
+
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                lipsums.take(5).subscribe(new LipsumSubscriber());
+            }
+        });
+
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                lipsums.take(10).subscribe(new LipsumSubscriber());
+            }
+        });
+
+        executorService.awaitTermination(11, TimeUnit.SECONDS);
+
+        executorService.shutdownNow();
+
     }
 }

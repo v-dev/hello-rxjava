@@ -68,6 +68,9 @@ public class Lipsum {
         }
     }
 
+    /**
+     * Thanks, lipsum.com.
+     */
     private void setupLipsumList() {
         lipsum = new ArrayList<String>();
 
