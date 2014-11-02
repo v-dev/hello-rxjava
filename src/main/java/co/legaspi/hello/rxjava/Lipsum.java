@@ -27,13 +27,21 @@ SOFTWARE.
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lipsum {
+public final class Lipsum {
 
+    private static Lipsum singleInstance;
     private List<String> lipsum;
     private int currentIndex = 0;
 
-    public Lipsum() {
+    private Lipsum() {
         setupLipsumList();
+    }
+
+    public static synchronized Lipsum singleton() {
+        if (singleInstance == null) {
+            singleInstance = new Lipsum();
+        }
+        return singleInstance;
     }
 
     /**

@@ -33,12 +33,11 @@ public class LipsumServer {
     private static final Logger LOG = LoggerFactory.getLogger(LipsumServer.class);
 
     public static Observable<String> getLipsum(final int secondsPerLipsum) {
-        final Lipsum lipsum = new Lipsum();
         return Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 while (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(lipsum.next());
+                    subscriber.onNext(Lipsum.singleton().next());
                     sleep(secondsPerLipsum);
                 }
             }
