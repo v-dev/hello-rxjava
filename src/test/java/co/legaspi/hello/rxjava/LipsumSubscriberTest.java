@@ -1,4 +1,4 @@
-package co.legaspi.hello.rxjava.client;
+package co.legaspi.hello.rxjava;
 
 /*
 The MIT License (MIT)
@@ -27,6 +27,7 @@ SOFTWARE.
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.Appender;
+import co.legaspi.hello.rxjava.LipsumSubscriber;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;

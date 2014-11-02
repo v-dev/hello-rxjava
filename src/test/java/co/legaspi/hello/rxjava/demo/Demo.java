@@ -1,4 +1,4 @@
-package co.legaspi.hello.rxjava.client;
+package co.legaspi.hello.rxjava.demo;
 
 /*
 The MIT License (MIT)
@@ -25,6 +25,7 @@ SOFTWARE.
 */
 
 import co.legaspi.hello.rxjava.LipsumServer;
+import co.legaspi.hello.rxjava.LipsumSubscriber;
 import org.junit.Test;
 import rx.Observable;
 

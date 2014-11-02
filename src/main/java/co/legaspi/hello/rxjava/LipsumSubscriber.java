@@ -1,4 +1,4 @@
-package co.legaspi.hello.rxjava.client;
+package co.legaspi.hello.rxjava;
 
 /*
 The MIT License (MIT)
