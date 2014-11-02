@@ -30,7 +30,6 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LipsumTest {
-
     private Lipsum lipsum;
 
     @Before
@@ -42,6 +41,27 @@ public class LipsumTest {
     public void hasExpectedSize() {
         final int expectedSize = 12;
         assertThat(lipsum.size()).isEqualTo(expectedSize);
+    }
+
+    @Test
+    public void nextIsDifferentThanPrevious() {
+        String first = lipsum.next();
+        String second = lipsum.next();
+
+        assertThat(first).isNotEqualTo(second);
+    }
+
+    @Test
+    public void nextEventuallyRollsOverToFirst() {
+        String first = lipsum.next();
+
+        for (int i = 0; i < lipsum.size(); i++) {
+            lipsum.next();
+        }
+
+        String rolledOver = lipsum.next();
+
+        assertThat(first).isEqualTo(rolledOver);
     }
 
     @Test

@@ -30,6 +30,7 @@ import java.util.List;
 public class Lipsum {
 
     private List<String> lipsum;
+    private int currentIndex = 0;
 
     public Lipsum() {
         setupLipsumList();
@@ -55,6 +56,14 @@ public class Lipsum {
             return lipsum.get(index);
         } else {
             return "";
+        }
+    }
+
+    public String next() {
+        if (currentIndex < size()) {
+            return get(currentIndex++);
+        } else {
+            return get(currentIndex = 0);
         }
     }
 

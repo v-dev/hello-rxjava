@@ -24,6 +24,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-public class LipsumServer {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import rx.Observable;
+import rx.Subscriber;
 
+public class LipsumServer {
+    private static final Logger LOG = LoggerFactory.getLogger(LipsumServer.class);
+
+    public static Observable<String> getLipsum(final int secondsPerLipsum) {
+        final Lipsum lipsum = new Lipsum();
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                while (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(lipsum.next());
+                    sleep(secondsPerLipsum);
+                }
+            }
+        });
+    }
+
+    private static void sleep(int secondsToSleep) {
+        try {
+            Thread.sleep(secondsToSleep * 1000L);
+        } catch (InterruptedException e) {
+            LOG.error("Sleep interrupted: ", e);
+        }
+    }
 }
