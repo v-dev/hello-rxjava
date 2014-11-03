@@ -43,6 +43,6 @@ public class LipsumSubscriber extends Subscriber<String> {
 
     @Override
     public void onNext(String lipsum) {
-        LOG.info("lipsum: {}", lipsum);
+        LOG.info("[{}] lipsum: {}", hashCode(), lipsum);
     }
 }

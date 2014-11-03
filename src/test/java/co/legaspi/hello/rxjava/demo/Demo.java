@@ -38,7 +38,14 @@ public class Demo {
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Test
-    public void demo() throws InterruptedException {
+    public void oneSubscriber() {
+        final Observable<String> lipsums = LipsumServer.getLipsum(1);
+
+        lipsums.take(3).subscribe(new LipsumSubscriber());
+    }
+
+    @Test
+    public void twoSubscribers() throws InterruptedException {
         final Observable<String> lipsums = LipsumServer.getLipsum(1);
 
         executorService.submit(new Runnable() {
