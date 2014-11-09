@@ -29,8 +29,8 @@ import org.slf4j.LoggerFactory;
 import rx.Observable;
 import rx.Subscriber;
 
-public class LipsumServer {
-    private static final Logger LOG = LoggerFactory.getLogger(LipsumServer.class);
+public class ReliableLipsumServer {
+    private static final Logger LOG = LoggerFactory.getLogger(ReliableLipsumServer.class);
 
     public static Observable<String> getLipsum(final int secondsPerLipsum) {
         return Observable.create(new Observable.OnSubscribe<String>() {

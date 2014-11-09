@@ -24,22 +24,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import co.legaspi.hello.rxjava.LipsumServer;
+import co.legaspi.hello.rxjava.CheapLipsumServer;
 import co.legaspi.hello.rxjava.LipsumSubscriber;
+import co.legaspi.hello.rxjava.ReliableLipsumServer;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Demo {
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Test
-    public void demo() throws InterruptedException {
-        final Observable<String> lipsums = LipsumServer.getLipsum(1);
+    public void twoSubscribersToReliableService() throws InterruptedException {
+        final Observable<String> lipsums = ReliableLipsumServer.getLipsum(1);
 
         executorService.submit(new Runnable() {
             @Override
@@ -58,6 +63,42 @@ public class Demo {
         executorService.awaitTermination(11, TimeUnit.SECONDS);
 
         executorService.shutdownNow();
+    }
 
+    @Test
+    public void twoResilientSubscribersToCheapService() throws InterruptedException {
+        final Observable<String> lipsums = CheapLipsumServer.getLipsum(1);
+
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                lipsums.take(10).subscribe(new LipsumSubscriber());
+                lipsums.onErrorResumeNext(new Func1<Throwable, Observable<? extends String>>() {
+                    @Override
+                    public Observable<? extends String> call(Throwable throwable) {
+                        LOG.info("Service died.  Re-attaching...");
+                        return CheapLipsumServer.getLipsum(1);
+                    }
+                }).subscribe(new LipsumSubscriber());
+            }
+        });
+
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                lipsums.take(10).subscribe(new LipsumSubscriber());
+                lipsums.onErrorResumeNext(new Func1<Throwable, Observable<? extends String>>() {
+                    @Override
+                    public Observable<? extends String> call(Throwable throwable) {
+                        LOG.info("Service died.  Re-attaching...");
+                        return CheapLipsumServer.getLipsum(1);
+                    }
+                }).takeLastBuffer(10).subscribe();
+            }
+        });
+
+        executorService.awaitTermination(11, TimeUnit.SECONDS);
+
+        executorService.shutdownNow();
     }
 }

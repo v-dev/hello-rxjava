@@ -26,23 +26,39 @@ SOFTWARE.
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rx.Observable;
 import rx.Subscriber;
 
-public class LipsumSubscriber extends Subscriber<String> {
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+import java.util.Random;
 
-    @Override
-    public void onCompleted() {
-        LOG.info("Done.");
+/**
+ * This service goes down often.
+ */
+public class CheapLipsumServer {
+    private static final Logger LOG = LoggerFactory.getLogger(CheapLipsumServer.class);
+    private static Random random = new Random(System.currentTimeMillis());
+
+    public static Observable<String> getLipsum(final int secondsPerLipsum) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                while (!subscriber.isUnsubscribed()) {
+                    if (random.nextDouble() > .7) {
+                        subscriber.onError(new Exception("Service went down for a sec."));
+                    } else {
+                        subscriber.onNext(Lipsum.singleton().next());
+                    }
+                    sleep(secondsPerLipsum);
+                }
+            }
+        });
     }
 
-    @Override
-    public void onError(Throwable e) {
-        LOG.error("[{}] An error happened: ", hashCode(), e);
-    }
-
-    @Override
-    public void onNext(String lipsum) {
-        LOG.info("[{}] lipsum: {}", hashCode(), lipsum);
+    private static void sleep(int secondsToSleep) {
+        try {
+            Thread.sleep(secondsToSleep * 1000L);
+        } catch (InterruptedException e) {
+            LOG.error("Sleep interrupted: ", e);
+        }
     }
 }
